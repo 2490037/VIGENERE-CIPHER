@@ -1,5 +1,7 @@
-# VIGENERE-CIPHER
-## EX. NO: 4
+## VIGENERE-CIPHER
+
+
+## EX. NO: 4 
  
 
 ## IMPLEMETATION OF VIGENERE CIPHER
@@ -30,7 +32,80 @@ STEP-8: Repeat the above steps to generate the entire cipher text.
 
 
 ## PROGRAM
+~~~
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
 
+
+void generateKey(char text[], char key[], char newKey[]) {
+    int textLen = strlen(text);
+    int keyLen = strlen(key);
+    int i, j = 0;
+
+    for (i = 0; i < textLen; i++) {
+        if (isalpha(text[i])) {
+            newKey[i] = toupper(key[j % keyLen]);
+            j++;
+        } else {
+            newKey[i] = text[i]; 
+        }
+    }
+    newKey[i] = '\0';
+}
+
+
+void encrypt(char text[], char key[], char cipher[]) {
+    int len = strlen(text);
+
+    for (int i = 0; i < len; i++) {
+        if (isalpha(text[i])) {
+            char base = isupper(text[i]) ? 'A' : 'a';
+            cipher[i] = ((toupper(text[i]) - 'A' + (key[i] - 'A')) % 26) + base;
+        } else {
+            cipher[i] = text[i]; 
+        }
+    }
+    cipher[len] = '\0';
+}
+
+
+void decrypt(char cipher[], char key[], char plain[]) {
+    int len = strlen(cipher);
+
+    for (int i = 0; i < len; i++) {
+        if (isalpha(cipher[i])) {
+            char base = isupper(cipher[i]) ? 'A' : 'a';
+            plain[i] = ((toupper(cipher[i]) - 'A' - (key[i] - 'A') + 26) % 26) + base;
+        } else {
+            plain[i] = cipher[i];
+        }
+    }
+    plain[len] = '\0';
+}
+
+int main() {
+    char text[200], key[200], newKey[200], cipher[200], decrypted[200];
+
+    printf("Enter text: ");
+    scanf("%[^\n]s", text);
+
+    printf("Enter key: ");
+    scanf("%s", key);
+
+    generateKey(text, key, newKey);
+
+    encrypt(text, newKey, cipher);
+    printf("Encrypted Text: %s\n", cipher);
+
+    decrypt(cipher, newKey, decrypted);
+    printf("Decrypted Text: %s\n", decrypted);
+
+    return 0;
+}
+~~~
 ## OUTPUT
+<img width="1915" height="1148" alt="Screenshot 2025-09-13 092157" src="https://github.com/user-attachments/assets/d92f2e11-c9d0-480e-b2d7-0ab7c3e261b3" />
 
 ## RESULT
+The program has been successfully created and verified.
